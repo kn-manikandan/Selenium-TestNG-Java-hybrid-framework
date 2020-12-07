@@ -1,5 +1,5 @@
 # Selenium-TestNG-Java
-Uploading automation testing framework built using Selenium-Cucumber-TestNG-Maven
+Uploading automation testing framework built using Selenium-TestNG-Maven
 
 
 About:
