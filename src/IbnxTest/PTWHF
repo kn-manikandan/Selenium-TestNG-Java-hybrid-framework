@@ -1,0 +1,122 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+//import { step, TestSettings, Until, By, Device } from '@flood/element'
+const element_1 = require("@flood/element");
+const assert = require("assert");
+const globalBrowserID = `${element_1.ENV.FLOOD_GRID_NODE_SEQUENCE_ID}_${element_1.ENV.BROWSER_ID}`;
+var permitID = "";
+exports.settings = {
+    loopCount: 2,
+    description: 'Unique Test Data',
+    //device: Chrome Desktop Large,
+    userAgent: 'flood-chrome-test',
+    screenshotOnFailure: true,
+    disableCache: true,
+    clearCache: true,
+    clearCookies: true,
+    actionDelay: 1.5,
+    stepDelay: 2.5,
+    waitTimeout: 30 // maximum wait time
+};
+let today = new Date().toISOString().slice(0, 10);
+console.log(today);
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+/**
+ * Acceptance_LOAD_Test_LOAD_Test
+ * @version 1.0
+ */
+exports.default = () => {
+    element_1.TestData.fromCSV('users.csv')
+        .filter((line, index, browserID) => line.id === globalBrowserID)
+        .circular();
+    //for (let i = 0; i < 3; i++) {	
+    // LOGIN
+    element_1.step('01. Login ' + globalBrowserID, async (browser, data) => {
+        let { username, password } = data;
+        await browser.visit('https://unite-accep.ibnx-hse.com/');
+        let buttonLocator = element_1.By.css('#loginButton');
+        await browser.wait(element_1.Until.elementIsVisible(buttonLocator));
+        await browser.type(element_1.By.css('#usernameInput'), `${data.username}`);
+        await browser.type(element_1.By.css('#passwordInput'), `${data.password}`);
+        const button = await browser.findElement(buttonLocator);
+        assert.ok(await button.isDisplayed(), 'Button is visible');
+        await button.click();
+        //await browser.resizeTo("screen.1366", "screen.768")
+        await browser.takeScreenshot();
+    });
+    // Go to Top menu
+    element_1.step('02.a Select Go to from top menu (Go to)', async (browser) => {
+        // Find and select "Create button in top menu"
+        //	mx-navbar-item dropdown
+        //	let buttonLocator = By.id('159b6aef-dbc3-5b23-a735-cf99f8341771-1')  //original script
+        let buttonLocator = element_1.By.partialVisibleText("Go to");
+        await browser.wait(element_1.Until.elementIsVisible(buttonLocator));
+        let buttonPress = await browser.findElement(buttonLocator);
+        await buttonPress.focus();
+        await buttonPress.click();
+    });
+    // Click Planning
+    element_1.step('02.b Select Planning from top menu (Planning)', async (browser) => {
+        // Now find and select "Planning"
+        let buttonLocator = element_1.By.partialVisibleText("Planning");
+        await browser.wait(element_1.Until.elementIsVisible(buttonLocator));
+        let buttonPress = await browser.findElement(buttonLocator);
+        await buttonPress.focus();
+        await buttonPress.click();
+		await delay(2000);
+        await browser.takeScreenshot();
+    });
+		
+    element_1.step('03.a. Filter planning - in Planning view  ', async (browser) => {
+        let buttonLocator = element_1.By.attr("button", "data-mendix-id", "205_7_80");
+        await browser.wait(element_1.Until.elementIsVisible(buttonLocator));
+        let buttonPress = await browser.findElement(buttonLocator);
+		await delay(2000);
+        await browser.takeScreenshot();
+        await buttonPress.focus();
+        await buttonPress.click();
+       
+    });
+    element_1.step('03.b Filling the start date and end date - in filter panel', async (browser) => {
+        //Filling the start date and end date - in filter panel
+        let elementTag = element_1.By.attr("", "data-mendix-id", "203_7_98");
+        await browser.wait(element_1.Until.elementIsVisible(elementTag));
+        let element = await browser.findElement(elementTag);
+        await element.focus();
+        await element.click();
+        await browser.sendKeys(element_1.Key.TAB);
+        //let today = new Date().toISOString().slice(0, 10);
+        //entering start date
+        await browser.sendKeys("2016-01-01", element_1.Key.TAB);
+        //Entering end date
+        await browser.sendKeys("2019-12-12", element_1.Key.TAB);
+        await browser.takeScreenshot();
+    });
+    element_1.step('03.c Click the search button', async (browser) => {
+        // Click the search button
+        let buttonLocator = element_1.By.attr("button", "data-mendix-id", "203_7_75");
+        await browser.wait(element_1.Until.elementIsVisible(buttonLocator));
+        let buttonPress = await browser.findElement(buttonLocator);
+        await buttonPress.focus();
+        await buttonPress.click();
+        await delay(2000);
+        await browser.takeScreenshot();
+    });
+    element_1.step('03.d Click the reset button', async (browser) => {
+        // Click the reset button
+        let buttonLocator = element_1.By.attr("button", "data-mendix-id", "203_7_76");
+        await browser.wait(element_1.Until.elementIsVisible(buttonLocator));
+        let buttonPress = await browser.findElement(buttonLocator);
+        await buttonPress.focus();
+        await buttonPress.click();
+	    await delay(2000);
+        await browser.takeScreenshot();
+    });
+    	
+    element_1.step('Load test is pass', async (browser) => {
+        console.log("Load test is pass");
+    });
+	
+};

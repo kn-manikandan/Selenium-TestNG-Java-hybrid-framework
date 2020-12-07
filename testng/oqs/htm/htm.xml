@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="OQS HTM Tests"> 
+	<parameter name="app" value="oqs"/> 
+	<parameter name="url" value="https://htmibsweb.mccg.net/oqs-server/static/oqs-angular/index.html#/quote/"/> 
+	
+  <test name="Chrome - Auto Tests">
+	<parameter name="browser" value="chrome"/>
+    <classes>
+    <class name='oqs.htm.tests.HTMAutoTests'/>
+    </classes>
+  </test> <!-- Test -->
+  <test name="Firefox - Auto Tests">
+	<parameter name="browser" value="firefox"/>
+    <classes>
+    <class name='oqs.htm.tests.HTMAutoTests'/>
+    </classes>
+  </test> <!-- Test -->
+  <test name="PhantomJS - Auto Tests">
+	<parameter name="browser" value="phantomjs"/>
+	<classes>
+    <class name='oqs.htm.tests.HTMAutoTests'/>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="Chrome - Accessibility Tests">
+	<parameter name="browser" value="chrome"/>
+    <classes>
+    <class name='oqs.htm.tests.accessibility.HTMAccessibilityTests'/>
+    </classes>
+  </test> <!-- Test -->
+  <test name="Firefox - Accessibility Tests">
+	<parameter name="browser" value="firefox"/>
+    <classes>
+    <class name='oqs.htm.tests.accessibility.HTMAccessibilityTests'/>
+    </classes>
+  </test> <!-- Test -->
+  <test name="PhantomJS - Accessibility Tests">
+	<parameter name="browser" value="phantomjs"/>
+    <classes>
+    <class name='oqs.htm.tests.accessibility.HTMAccessibilityTests'/>
+    </classes>
+  </test> <!-- Test -->
+  
+</suite> <!-- Suite -->
+
